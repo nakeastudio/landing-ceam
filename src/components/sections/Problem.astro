@@ -1,0 +1,82 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Reveal from '../ui/Reveal.astro';
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import { problems } from '../../lib/content';
+---
+<section id="problema" class="relative pt-24 pb-20 sm:pb-28 bg-[var(--color-bg-secondary)]">
+  <div class="container-page">
+    <SectionHeader
+      eyebrow="Problema"
+      eyebrowColor="red"
+      title="Estudiar medicina es difícil cuando la información está dispersa"
+      accentWord="dispersa"
+    />
+
+    <Reveal delay={120}>
+      <p class="mx-auto mt-6 max-w-2xl text-center text-[var(--color-fg-muted)] text-lg leading-relaxed">
+        Demasiados libros, demasiados temas, poco tiempo y poca orientación sobre qué estudiar primero.
+      </p>
+    </Reveal>
+
+    <div class="mt-14 grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-14 items-center max-w-6xl mx-auto">
+      <Reveal>
+        <div class="relative">
+          <div class="relative rounded-3xl overflow-hidden shadow-[0_40px_80px_-30px_rgba(4,44,83,0.35)]">
+            <PlaceholderImage label="Estudiante de medicina agobiado entre libros" aspect="portrait" />
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[var(--color-brand-700)]/30 via-transparent to-transparent mix-blend-multiply"></div>
+          </div>
+          <div class="absolute -bottom-5 -right-5 sm:-bottom-6 sm:-right-6 max-w-[220px] rounded-2xl bg-white border border-[var(--color-border)] shadow-[0_20px_40px_-20px_rgba(4,44,83,0.25)] p-4">
+            <div class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8C1F18]">
+              <span class="inline-block h-2 w-2 rounded-full bg-[#8C1F18] animate-pulse"></span>
+              2:47 AM
+            </div>
+            <p class="mt-1.5 text-[13px] leading-snug text-[var(--color-fg)] font-medium">
+              "Sigo en el capítulo 3 y el examen es en 12 horas."
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={120}>
+        <ul class="space-y-2">
+          {problems.map((p, i) => (
+            <li class="group flex items-start gap-5 rounded-2xl p-5 transition-colors duration-200 hover:bg-white">
+              <div class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#FBE5E3] text-[#8C1F18] transition-transform duration-300 group-hover:rotate-6">
+                <Icon name={p.icon} class="h-5 w-5" />
+              </div>
+              <div class="flex-1 min-w-0 pt-1">
+                <h3 class="font-display font-bold text-lg text-[var(--color-fg)] leading-snug">{p.title}</h3>
+                <p class="mt-1.5 text-[14.5px] leading-relaxed text-[var(--color-fg-muted)]">{p.description}</p>
+              </div>
+              <div class="hidden sm:block pt-2 text-[var(--color-fg-subtle)] text-xs font-mono tabular-nums">
+                0{i + 1}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
+    </div>
+
+    {/* Pull quote + arrow into Solution */}
+    <Reveal delay={200}>
+      <div class="mt-20 max-w-3xl mx-auto text-center">
+        <p class="font-display text-xl sm:text-2xl font-semibold text-[var(--color-fg)] leading-snug">
+          Ahí nace <span class="text-[var(--color-brand-500)]">MENTOR CEAM</span>.
+        </p>
+        <p class="mt-3 text-[var(--color-fg-muted)] leading-relaxed">
+          Una IA médica académica diseñada para convertir el estudio tradicional en un
+          sistema inteligente de aprendizaje.
+        </p>
+
+        <div class="mt-10 flex flex-col items-center anim-flecha" aria-hidden="true">
+          <span class="block w-px h-10 bg-gradient-to-b from-transparent to-[var(--color-brand-500)]"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#185FA5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+type ColorKey = 'blue' | 'red' | 'green' | 'purple' | 'amber' | 'rose' | 'dark';
+export interface Props {
+  color?: ColorKey;
+  pulse?: boolean;
+  class?: string;
+}
+const { color = 'blue', pulse = false, class: className = '' } = Astro.props;
+
+const palettes: Record<ColorKey, string> = {
+  blue:   'bg-[#E6F1FB] text-[#0C447C]',
+  red:    'bg-[#FBE5E3] text-[#8C1F18]',
+  green:  'bg-[#E1F5EE] text-[#085041]',
+  purple: 'bg-[#EEEDFE] text-[#3C3489]',
+  amber:  'bg-[#FAEEDA] text-[#633806]',
+  rose:   'bg-[#FBEAF0] text-[#72243E]',
+  dark:   'bg-white/10 text-white border border-white/15',
+};
+---
+<span class={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${palettes[color]} ${pulse ? 'anim-pulse-ring' : ''} ${className}`}>
+  <slot />
+</span>

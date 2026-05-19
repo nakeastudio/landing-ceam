@@ -1,0 +1,84 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Reveal from '../ui/Reveal.astro';
+import { promptExamples } from '../../lib/content';
+---
+<section id="ejemplos" class="relative py-20 sm:py-28 bg-[var(--color-bg-secondary)] overflow-hidden">
+  {/* Subtle background grid for chat feel */}
+  <div
+    class="absolute inset-0 opacity-[0.04] pointer-events-none"
+    style="background-image: radial-gradient(circle, var(--color-fg) 1px, transparent 1px); background-size: 24px 24px;"
+    aria-hidden="true"
+  ></div>
+
+  <div class="container-page relative">
+    <SectionHeader
+      eyebrow="Ejemplos de uso"
+      eyebrowColor="blue"
+      title="Pregúntale a MENTOR CEAM"
+      accentWord="MENTOR CEAM"
+      subtitle="Mirá los prompts reales que podés enviarle. Tocá cualquier especialidad para probarlo en vivo."
+    />
+
+    {/* Typewriter input + chips */}
+    <div class="mt-14 max-w-3xl mx-auto" data-prompt-typewriter>
+      <Reveal>
+        <div class="relative rounded-3xl bg-white border border-[var(--color-border)] shadow-[0_30px_80px_-30px_rgba(24,95,165,0.35)] overflow-hidden">
+          {/* Top bar — fake input frame */}
+          <div class="flex items-center justify-between px-6 py-3 border-b border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+            <div class="flex items-center gap-2">
+              <Icon name="tabler:message-circle-2" class="h-4 w-4 text-[var(--color-brand-500)]" />
+              <span class="text-[12px] font-semibold text-[var(--color-fg-muted)] uppercase tracking-wider">Tu pregunta</span>
+            </div>
+            <span class="hidden sm:flex items-center gap-1.5 text-[11px] text-[var(--color-fg-subtle)]">
+              <span class="h-1.5 w-1.5 rounded-full bg-[#0F6E56]"></span>
+              MENTOR CEAM activo
+            </span>
+          </div>
+
+          {/* Textarea-look */}
+          <div class="px-6 sm:px-8 py-7 sm:py-9 min-h-[160px] sm:min-h-[180px] flex items-start gap-3">
+            <p class="flex-1 text-[18px] sm:text-[22px] leading-relaxed font-display text-[var(--color-fg)] font-medium">
+              <span data-typewriter-text></span><span class="typewriter-cursor" aria-hidden="true"></span>
+            </p>
+          </div>
+
+          {/* Bottom bar — fake send button */}
+          <div class="flex items-center justify-between px-6 py-4 border-t border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+            <span class="text-[12px] text-[var(--color-fg-subtle)]">
+              <kbd class="px-1.5 py-0.5 rounded bg-white border border-[var(--color-border)] text-[10px] font-mono">↵</kbd>
+              <span class="ml-1">para enviar</span>
+            </span>
+            <a
+              href="#cta"
+              class="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand-500)] hover:bg-[var(--color-brand-700)] text-white px-4 py-2 text-[13px] font-semibold transition-colors shimmer-btn"
+            >
+              Preguntar
+              <Icon name="tabler:send" class="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Chips row */}
+      <Reveal delay={120}>
+        <div class="mt-8 flex flex-wrap justify-center gap-2.5">
+          {promptExamples.map((p, i) => (
+            <button
+              type="button"
+              data-typewriter-chip
+              data-prompt={p.text}
+              data-active={i === 0 ? 'true' : 'false'}
+              class="prompt-chip group inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-[13px] font-semibold transition-all"
+            >
+              <Icon name="tabler:stethoscope" class="h-3.5 w-3.5" />
+              {p.specialty}
+              <span class="text-[10px] font-medium opacity-60 hidden sm:inline">· {p.format}</span>
+            </button>
+          ))}
+        </div>
+      </Reveal>
+    </div>
+  </div>
+</section>

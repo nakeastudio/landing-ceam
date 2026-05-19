@@ -1,0 +1,21 @@
+---
+export interface Props {
+  delay?: number;
+  as?: string;
+  class?: string;
+  /**
+   * Stagger in ms for direct children. When set, applies
+   * transition-delay: calc(reveal-delay + (--i * stagger)) to each child.
+   * Consumers must wrap children that should stagger in `<div style="--i: N">`.
+   */
+  stagger?: number;
+}
+const { delay = 0, as: Tag = 'div', class: className = '', stagger } = Astro.props;
+const styleParts: string[] = [];
+if (delay) styleParts.push(`--reveal-delay:${delay}ms`);
+if (stagger) styleParts.push(`--reveal-stagger:${stagger}ms`);
+const style = styleParts.length ? styleParts.join(';') : undefined;
+---
+<Tag data-reveal data-reveal-stagger={stagger ? '' : undefined} class={className} style={style}>
+  <slot />
+</Tag>

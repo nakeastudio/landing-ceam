@@ -1,0 +1,21 @@
+---
+export interface Props {
+  color?: string;
+  size?: string;
+  class?: string;
+  opacity?: number;
+  delay?: string;
+}
+const {
+  color = '#185FA5',
+  size = '480px',
+  class: className = '',
+  opacity = 0.18,
+  delay = '0s',
+} = Astro.props;
+---
+<div
+  aria-hidden="true"
+  class={`pointer-events-none absolute rounded-full blur-3xl anim-blob ${className}`}
+  style={`width:${size};height:${size};background:radial-gradient(circle at 30% 30%, ${color} 0%, transparent 65%);opacity:${opacity};animation-delay:${delay};`}
+></div>

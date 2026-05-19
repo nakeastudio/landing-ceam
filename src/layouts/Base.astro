@@ -1,0 +1,85 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'MENTOR CEAM — IA Médica para estudiar medicina y residencia en Bolivia',
+  description = 'Inteligencia Artificial Médica basada en libros de medicina. La nueva forma de estudiar medicina con una IA diseñada exclusivamente para la formación médica, desde ciencias básicas hasta la preparación para la Residencia Médica.',
+} = Astro.props;
+
+const siteUrl = 'https://mentorceam.com';
+const ogImage = `${siteUrl}/og-image.png`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'EducationalOrganization',
+      name: 'MENTOR CEAM',
+      url: siteUrl,
+      description,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'La Paz',
+        addressCountry: 'BO',
+      },
+      parentOrganization: {
+        '@type': 'Organization',
+        name: 'Curso VIP CEAM',
+      },
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'MENTOR CEAM',
+      applicationCategory: 'EducationApplication',
+      operatingSystem: 'Web',
+      description,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'BOB' },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={siteUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="es_BO" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#185FA5" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+  <body class="bg-bg text-fg">
+    <slot />
+
+    <script>
+      import '../scripts/reveal';
+      import '../scripts/nav-scroll';
+      import '../scripts/chat-stagger';
+      import '../scripts/prompt-typewriter';
+    </script>
+  </body>
+</html>

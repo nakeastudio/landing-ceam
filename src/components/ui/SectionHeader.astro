@@ -1,0 +1,60 @@
+---
+import Eyebrow from './Eyebrow.astro';
+import Reveal from './Reveal.astro';
+
+type Color = 'blue' | 'red' | 'green' | 'purple' | 'amber' | 'rose' | 'dark';
+export interface Props {
+  eyebrow?: string;
+  eyebrowColor?: Color;
+  title: string;
+  accentWord?: string;
+  subtitle?: string;
+  align?: 'left' | 'center';
+  inverted?: boolean;
+}
+const {
+  eyebrow,
+  eyebrowColor = 'blue',
+  title,
+  accentWord,
+  subtitle,
+  align = 'center',
+  inverted = false,
+} = Astro.props;
+const wrap = align === 'center' ? 'mx-auto text-center max-w-3xl' : 'max-w-3xl';
+const titleColor = inverted ? 'text-white' : 'text-[var(--color-fg)]';
+const subColor = inverted ? 'text-white/75' : 'text-[var(--color-fg-muted)]';
+const accentColor = inverted ? 'text-[var(--color-brand-200)]' : 'text-[var(--color-brand-500)]';
+
+// Split the title on the first occurrence of accentWord (case-sensitive)
+let before = title;
+let accent = '';
+let after = '';
+if (accentWord && title.includes(accentWord)) {
+  const idx = title.indexOf(accentWord);
+  before = title.slice(0, idx);
+  accent = accentWord;
+  after = title.slice(idx + accentWord.length);
+}
+---
+<div class={wrap}>
+  {eyebrow && (
+    <Reveal>
+      <Eyebrow color={eyebrowColor}>{eyebrow}</Eyebrow>
+    </Reveal>
+  )}
+  <Reveal delay={80}>
+    <h2 class={`font-display mt-4 text-balance text-3xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight ${titleColor}`}>
+      {accent ? (
+        <>{before}<span class={accentColor}>{accent}</span>{after}</>
+      ) : (
+        title
+      )}
+    </h2>
+  </Reveal>
+  {subtitle && (
+    <Reveal delay={160}>
+      <p class={`mt-4 text-lg leading-relaxed ${subColor}`}>{subtitle}</p>
+    </Reveal>
+  )}
+</div>

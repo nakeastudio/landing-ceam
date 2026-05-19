@@ -1,0 +1,499 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Reveal from '../ui/Reveal.astro';
+import { academicLevels } from '../../lib/content';
+
+const palette: Record<number, { bg: string; fg: string; ring: string; theme: string }> = {
+  1: { bg: '#EEEDFE', fg: '#3C3489', ring: 'rgba(60,52,137,0.22)', theme: 'Estructura' },
+  2: { bg: '#E1F5EE', fg: '#085041', ring: 'rgba(8,80,65,0.22)',   theme: 'Función' },
+  3: { bg: '#E6F1FB', fg: '#0C447C', ring: 'rgba(12,68,124,0.22)', theme: 'Clínica' },
+  4: { bg: '#FAEEDA', fg: '#633806', ring: 'rgba(99,56,6,0.22)',   theme: 'Residencia' },
+  5: { bg: '#FBEAF0', fg: '#72243E', ring: 'rgba(114,36,62,0.22)', theme: 'Especialización' },
+};
+---
+<section id="niveles" class="relative py-20 sm:py-28 bg-[var(--color-bg-secondary)] overflow-hidden">
+  <div class="container-page">
+    <SectionHeader
+      eyebrow="Base académica"
+      eyebrowColor="blue"
+      title="Una base de conocimiento médica organizada por niveles"
+      accentWord="niveles"
+      subtitle="MENTOR CEAM está construido para acompañar la progresión natural del aprendizaje médico."
+    />
+
+    <div
+      class="timeline relative mt-16 sm:mt-20 mx-auto max-w-6xl"
+      data-timeline
+    >
+      {/* Spine — base + progress fill on top */}
+      <div class="timeline-spine" aria-hidden="true">
+        <div class="timeline-spine-fill" data-spine-fill></div>
+      </div>
+
+      <ol class="timeline-list">
+        {academicLevels.map((level, i) => {
+          const c = palette[level.n];
+          const side = i % 2 === 0 ? 'left' : 'right';
+          return (
+            <li
+              class={`timeline-item timeline-item--${side}`}
+              data-timeline-item
+              style={`--fg:${c.fg}; --bg:${c.bg}; --ring:${c.ring};`}
+            >
+              {/* Node on the spine */}
+              <div class="timeline-node" aria-hidden="true">
+                <span class="timeline-node-pulse"></span>
+                <span class="timeline-node-circle">
+                  <span class="timeline-node-number">{level.n}</span>
+                </span>
+              </div>
+
+              {/* Connector from node to content */}
+              <span class="timeline-connector" aria-hidden="true"></span>
+
+              {/* Content */}
+              <Reveal>
+                <div class="timeline-content">
+                  <span class="timeline-bignum" aria-hidden="true">0{level.n}</span>
+
+                  <p class="timeline-eyebrow">{level.eyebrow}</p>
+                  <h3 class="timeline-title">{level.title}</h3>
+                  <p class="timeline-desc">{level.description}</p>
+
+                  <ul class="timeline-subjects">
+                    {level.subjects.map((s, j) => (
+                      <li class="timeline-subject">
+                        <span class="timeline-subject-idx">{String(j + 1).padStart(2, '0')}</span>
+                        <span class="timeline-subject-label">{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+
+              {/* Aside — balances the opposite side of the spine */}
+              <aside class="timeline-aside" aria-hidden="true">
+                <div class="timeline-aside-inner">
+                  <span class="timeline-aside-icon">
+                    <Icon name={level.icon} class="h-10 w-10 sm:h-12 sm:w-12" />
+                  </span>
+                  <p class="timeline-aside-theme">{c.theme}</p>
+                  <p class="timeline-aside-count">
+                    <span class="timeline-aside-count-num">{level.subjects.length}</span>
+                    <span class="timeline-aside-count-label">materias</span>
+                  </p>
+                </div>
+              </aside>
+            </li>
+          );
+        })}
+      </ol>
+
+      {/* End cap — visual close of the timeline */}
+      <div class="timeline-endcap" aria-hidden="true">
+        <span class="timeline-endcap-dot"></span>
+        <span class="timeline-endcap-label">Listo para la práctica</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline { position: relative; }
+
+  /* --- Spine ------------------------------------------------------------- */
+  /* Spine bottom is anchored so it ends exactly at the endcap dot's TOP edge.
+     Mobile: dot is vertically centered in endcap row → bottom = ~half endcap.
+     Desktop: endcap is a column (dot, gap, label) → bottom = label + gap. */
+  .timeline-spine {
+    position: absolute;
+    top: 0;
+    bottom: 1rem; /* mobile: leaves room for half the endcap row */
+    left: 1.5rem;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0,
+      var(--color-border) 24px,
+      var(--color-border) 100%
+    );
+    pointer-events: none;
+  }
+  @media (min-width: 1024px) {
+    .timeline-spine {
+      bottom: 1.75rem; /* label (~0.88rem) + gap (0.875rem) */
+    }
+  }
+  .timeline-spine-fill {
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 2px;
+    height: var(--progress, 0%);
+    background: var(--color-brand-600, #185FA5);
+    opacity: 0.55;
+    transition: height 120ms linear;
+  }
+  @media (min-width: 1024px) {
+    .timeline-spine,
+    .timeline-spine-fill {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  /* --- List -------------------------------------------------------------- */
+  .timeline-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4.5rem;
+  }
+  @media (min-width: 1024px) {
+    .timeline-list { gap: 6rem; }
+  }
+
+  /* --- Item -------------------------------------------------------------- */
+  .timeline-item {
+    position: relative;
+    padding-left: 4.25rem;
+    min-height: 4rem;
+  }
+  @media (min-width: 1024px) {
+    .timeline-item { padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 5rem; align-items: center; }
+    .timeline-item--left  .timeline-content { grid-column: 1; grid-row: 1; text-align: right; }
+    .timeline-item--left  .timeline-aside   { grid-column: 2; grid-row: 1; justify-self: start; }
+    .timeline-item--right .timeline-content { grid-column: 2; grid-row: 1; }
+    .timeline-item--right .timeline-aside   { grid-column: 1; grid-row: 1; justify-self: end; text-align: right; }
+    .timeline-item--left  .timeline-subjects { justify-content: flex-end; }
+    .timeline-item--left  .timeline-subject  { flex-direction: row-reverse; }
+    .timeline-item--left  .timeline-bignum   { right: -1.5rem; left: auto; }
+  }
+
+  /* --- Node (on the spine) ---------------------------------------------- */
+  .timeline-node {
+    position: absolute;
+    top: 0.25rem;
+    left: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  @media (min-width: 1024px) {
+    .timeline-node { left: 50%; }
+  }
+  .timeline-node-pulse {
+    position: absolute;
+    inset: -6px;
+    border-radius: 9999px;
+    background: var(--fg);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 400ms ease, transform 400ms ease;
+  }
+  .timeline-node-circle {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    background: #fff;
+    border: 2px solid var(--color-border);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+    transition: border-color 300ms ease, background 300ms ease, box-shadow 300ms ease;
+  }
+  .timeline-node-number {
+    font-family: var(--font-display, inherit);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--color-fg-muted);
+    transition: color 300ms ease;
+  }
+
+  /* Active state — when item enters viewport */
+  .timeline-item.is-active .timeline-node-circle {
+    background: var(--fg);
+    border-color: var(--fg);
+    box-shadow: 0 0 0 6px var(--ring), 0 14px 32px -10px var(--ring);
+  }
+  .timeline-item.is-active .timeline-node-number { color: #fff; }
+  .timeline-item.is-active .timeline-node-pulse {
+    opacity: 0.15;
+    transform: scale(1);
+    animation: timeline-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes timeline-pulse {
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50%      { opacity: 0;    transform: scale(1.35); }
+  }
+
+  /* --- Connector (node → content) --------------------------------------- */
+  .timeline-connector {
+    position: absolute;
+    top: 1.75rem;
+    left: 1.5rem;
+    height: 2px;
+    width: 2.25rem;
+    background: var(--color-border);
+    transition: background 300ms ease;
+  }
+  .timeline-item.is-active .timeline-connector { background: var(--fg); }
+  @media (min-width: 1024px) {
+    .timeline-connector { display: none; }
+  }
+
+  /* --- Content ---------------------------------------------------------- */
+  .timeline-content {
+    position: relative;
+    padding: 0.25rem 0;
+  }
+  .timeline-bignum {
+    position: absolute;
+    top: -2.5rem;
+    left: -1.5rem;
+    font-family: var(--font-display, inherit);
+    font-weight: 800;
+    font-size: clamp(4rem, 10vw, 7rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    opacity: 0.07;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity 500ms ease;
+  }
+  .timeline-item.is-active .timeline-bignum { opacity: 0.12; }
+  @media (max-width: 1023px) {
+    .timeline-bignum { display: none; }
+  }
+
+  .timeline-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--fg);
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- Aside (counter-balance the other side of the spine) -------------- */
+  .timeline-aside {
+    display: none; /* hidden on mobile — spine is on left, no room for aside */
+  }
+  @media (min-width: 1024px) {
+    .timeline-aside { display: block; max-width: 18rem; }
+  }
+  .timeline-aside-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 0;
+  }
+  .timeline-item--right .timeline-aside-inner { align-items: flex-end; }
+  .timeline-aside-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 9999px;
+    background: var(--bg);
+    color: var(--fg);
+    transition: transform 400ms ease, box-shadow 400ms ease;
+  }
+  .timeline-item.is-active .timeline-aside-icon {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px -16px var(--ring);
+  }
+  .timeline-aside-theme {
+    font-family: var(--font-display, inherit);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 0;
+  }
+  .timeline-aside-count {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin: 0;
+  }
+  .timeline-item--right .timeline-aside-count { flex-direction: row-reverse; }
+  .timeline-aside-count-num {
+    font-family: var(--font-display, inherit);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--fg);
+    line-height: 1;
+  }
+  .timeline-aside-count-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+    color: var(--color-fg-muted);
+  }
+
+  .timeline-title {
+    font-family: var(--font-display, inherit);
+    font-weight: 700;
+    font-size: clamp(1.35rem, 2.2vw, 1.875rem);
+    line-height: 1.15;
+    color: var(--color-fg);
+    margin: 0;
+  }
+  .timeline-desc {
+    margin-top: 0.625rem;
+    color: var(--color-fg-muted);
+    line-height: 1.65;
+    max-width: 36ch;
+  }
+  @media (min-width: 1024px) {
+    .timeline-item--left .timeline-desc { margin-left: auto; }
+  }
+
+  /* --- Subjects (editorial grid, no pills) ------------------------------ */
+  .timeline-subjects {
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--color-border);
+  }
+  @media (min-width: 640px) {
+    .timeline-subjects { grid-template-columns: 1fr 1fr; column-gap: 1.5rem; }
+  }
+  .timeline-subject {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: padding 200ms ease;
+  }
+  .timeline-subject-idx {
+    font-family: var(--font-display, inherit);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--fg);
+    opacity: 0.55;
+    min-width: 1.6rem;
+  }
+  .timeline-subject-label {
+    font-size: 0.95rem;
+    color: var(--color-fg);
+    font-weight: 500;
+  }
+  .timeline-item.is-active .timeline-subject-idx { opacity: 1; }
+
+  /* --- End cap ---------------------------------------------------------- */
+  .timeline-endcap {
+    position: relative;
+    margin-top: 3rem;
+    padding-left: 4.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .timeline-endcap {
+      padding-left: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.875rem;
+      min-height: 0;
+    }
+  }
+  .timeline-endcap-dot {
+    position: absolute;
+    top: 50%;
+    left: 1.5rem;
+    transform: translate(-50%, -50%);
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 9999px;
+    background: var(--color-brand-600, #185FA5);
+    box-shadow: 0 0 0 6px rgba(24,95,165,0.12);
+  }
+  @media (min-width: 1024px) {
+    .timeline-endcap-dot {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+    }
+  }
+  .timeline-endcap-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-600, #185FA5);
+    line-height: 1.1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-spine-fill { transition: none; }
+    .timeline-node-pulse { animation: none !important; }
+  }
+</style>
+
+<script>
+  // Scroll-driven timeline: fill the spine + activate the in-view item.
+  const timelines = document.querySelectorAll<HTMLElement>('[data-timeline]');
+
+  timelines.forEach((timeline) => {
+    const fill = timeline.querySelector<HTMLElement>('[data-spine-fill]');
+    const items = Array.from(
+      timeline.querySelectorAll<HTMLElement>('[data-timeline-item]')
+    );
+    if (!fill || items.length === 0) return;
+
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const rect = timeline.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Anchor: progress = how far the viewport center has crossed the timeline.
+      const total = rect.height;
+      const passed = vh * 0.5 - rect.top;
+      const ratio = Math.min(1, Math.max(0, passed / total));
+      fill.style.setProperty('--progress', `${(ratio * 100).toFixed(2)}%`);
+
+      // Activate items whose node is at/above viewport center.
+      items.forEach((item) => {
+        const node = item.querySelector<HTMLElement>('.timeline-node');
+        if (!node) return;
+        const nodeRect = node.getBoundingClientRect();
+        const nodeCenter = nodeRect.top + nodeRect.height / 2;
+        if (nodeCenter <= vh * 0.55) {
+          item.classList.add('is-active');
+        } else {
+          item.classList.remove('is-active');
+        }
+      });
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  });
+</script>

@@ -1,0 +1,107 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Reveal from '../ui/Reveal.astro';
+---
+<section id="ecosistema" class="relative py-24 sm:py-32 bg-[var(--color-bg-dark)] text-white overflow-hidden">
+  {/* Decorative glow */}
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[480px] w-[480px] rounded-full blur-3xl opacity-30 bg-[#185FA5]" aria-hidden="true"></div>
+
+  <div class="container-page relative">
+    <SectionHeader
+      eyebrow="Uso dentro del Curso VIP"
+      eyebrowColor="dark"
+      title="El complemento inteligente del Curso VIP CEAM"
+      accentWord="inteligente"
+      inverted
+    />
+
+    <Reveal delay={120}>
+      <div class="mx-auto mt-8 max-w-3xl space-y-4 text-white/75 text-lg leading-relaxed text-center">
+        <p>
+          MENTOR CEAM potencia la preparación del estudiante dentro del ecosistema CEAM.
+          Mientras el Curso VIP ofrece clases, simulacros, banco de preguntas, cronograma y estrategia de preparación,
+          MENTOR CEAM acompaña al estudiante en su estudio diario.
+        </p>
+        <p>
+          Sirve para reforzar lo aprendido, resolver dudas después de clase, convertir temas en flashcards,
+          practicar casos clínicos y preparar repasos personalizados.
+        </p>
+      </div>
+    </Reveal>
+
+    <div class="relative mt-16 grid md:grid-cols-2 gap-8 md:gap-32 items-stretch max-w-5xl mx-auto">
+      <Reveal delay={160} class="h-full">
+        <article class="relative h-full rounded-2xl bg-gradient-to-br from-[#F4B400]/10 to-white/5 border border-[#F4B400]/30 backdrop-blur-sm p-8 pb-14">
+          <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#F4B400] mb-3">Programa presencial / online</p>
+          <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#F4B400]/15 text-[#F4B400]">
+            <Icon name="tabler:school" class="h-6 w-6" />
+          </div>
+          <h3 class="mt-5 font-display text-2xl font-bold text-white">Curso VIP CEAM</h3>
+          <ul class="mt-4 space-y-2.5 text-white/75">
+            <li class="flex gap-2"><span class="text-[#F4B400]">•</span> Clases en vivo</li>
+            <li class="flex gap-2"><span class="text-[#F4B400]">•</span> Simulacros</li>
+            <li class="flex gap-2"><span class="text-[#F4B400]">•</span> Banco de preguntas</li>
+            <li class="flex gap-2"><span class="text-[#F4B400]">•</span> Cronograma y estrategia de preparación</li>
+          </ul>
+          <span class="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-[#F4B400]/15 border border-[#F4B400]/30 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#F4B400]">
+            Disponible ahora
+          </span>
+        </article>
+      </Reveal>
+
+      {/* Mobile: + between stacked cards (hidden on md+) */}
+      <div class="md:hidden flex justify-center -my-2" aria-hidden="true">
+        <div class="relative">
+          <div class="absolute inset-0 rounded-full blur-2xl bg-[#85B7EB] opacity-50 anim-glow"></div>
+          <div class="relative grid h-12 w-12 place-items-center rounded-full bg-white text-[var(--color-brand-700)] font-display text-2xl font-extrabold shadow-[0_0_24px_rgba(133,183,235,0.4)]">
+            +
+          </div>
+        </div>
+      </div>
+
+      <Reveal delay={240} class="h-full">
+        <article class="relative h-full rounded-2xl bg-gradient-to-br from-[#85B7EB]/10 to-white/5 border border-[#85B7EB]/30 backdrop-blur-sm p-8 pb-14">
+          <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#85B7EB] mb-3">IA Médica Académica</p>
+          <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#85B7EB]/20 text-[#85B7EB]">
+            <Icon name="tabler:brain" class="h-6 w-6" />
+          </div>
+          <h3 class="mt-5 font-display text-2xl font-bold text-white">MENTOR CEAM</h3>
+          <ul class="mt-4 space-y-2.5 text-white/75">
+            <li class="flex gap-2"><span class="text-[#85B7EB]">•</span> Estudio diario asistido por IA</li>
+            <li class="flex gap-2"><span class="text-[#85B7EB]">•</span> Resolución de dudas después de clase</li>
+            <li class="flex gap-2"><span class="text-[#85B7EB]">•</span> Flashcards y casos clínicos a demanda</li>
+            <li class="flex gap-2"><span class="text-[#85B7EB]">•</span> Repasos personalizados</li>
+          </ul>
+          <span class="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-[#0F6E56]/20 border border-[#0F6E56]/40 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#7EE7C7]">
+            <span class="relative flex h-2 w-2">
+              <span class="absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75 animate-ping"></span>
+              <span class="relative inline-flex h-2 w-2 rounded-full bg-[#10B981]"></span>
+            </span>
+            24/7 disponible
+          </span>
+        </article>
+      </Reveal>
+
+      {/* Desktop: + absolute centered between the 2 cards (md+ only) */}
+      <div
+        class="pointer-events-none hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 items-center justify-center"
+        aria-hidden="true"
+      >
+        <div class="relative">
+          <div class="absolute inset-0 rounded-full blur-2xl bg-[#85B7EB] opacity-60 anim-glow"></div>
+          <div class="relative grid h-16 w-16 place-items-center rounded-full bg-white text-[var(--color-brand-700)] font-display text-3xl font-extrabold shadow-[0_0_30px_rgba(133,183,235,0.45)]">
+            +
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <Reveal delay={320}>
+      <p class="mt-14 text-center italic text-xl sm:text-2xl text-white/90 font-display max-w-3xl mx-auto">
+        “Una combinación diseñada para estudiar con estrategia y competir con ventaja.”
+      </p>
+    </Reveal>
+  </div>
+
+</section>

@@ -1,0 +1,93 @@
+@import "tailwindcss";
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "@fontsource-variable/inter";
+@import "./animations.css";
+
+@theme {
+  /* Brand — azul médico cliente */
+  --color-brand-50:  #E6F1FB;
+  --color-brand-100: #C3DEF5;
+  --color-brand-200: #85B7EB;
+  --color-brand-500: #185FA5;
+  --color-brand-700: #0C447C;
+  --color-brand-900: #042C53;
+
+  /* Niveles académicos */
+  --color-level-1-bg: #EEEDFE;
+  --color-level-1-fg: #3C3489;
+  --color-level-2-bg: #E1F5EE;
+  --color-level-2-fg: #085041;
+  --color-level-3-bg: #E6F1FB;
+  --color-level-3-fg: #0C447C;
+  --color-level-4-bg: #FAEEDA;
+  --color-level-4-fg: #633806;
+  --color-level-5-bg: #FBEAF0;
+  --color-level-5-fg: #72243E;
+
+  /* Accents */
+  --color-accent-amber:   #F4B400;
+  --color-accent-rose:    #D4537E;
+  --color-accent-emerald: #0F6E56;
+
+  /* Neutros */
+  --color-bg:           #FFFFFF;
+  --color-bg-secondary: #F8F8F7;
+  --color-bg-tertiary:  #EFEEEC;
+  --color-bg-dark:      #042C53;
+  --color-fg:           #14110E;
+  --color-fg-muted:     #6B6660;
+  --color-fg-subtle:    #95908A;
+  --color-border:       #E5E3DF;
+  --color-placeholder:  #E0DDD7;
+
+  --font-display: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans:    "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-fg);
+  background: var(--color-bg);
+  font-feature-settings: "ss01", "cv11";
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Custom scrollbar — desktop pointer only */
+@media (pointer: fine) {
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
+  ::-webkit-scrollbar-track { background: var(--color-bg-secondary); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-brand-500);
+    border: 3px solid var(--color-bg-secondary);
+    border-radius: 999px;
+    transition: background 0.2s ease;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-brand-700); }
+  html { scrollbar-color: var(--color-brand-500) var(--color-bg-secondary); scrollbar-width: thin; }
+}
+
+/* Container helper */
+.container-page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-page { padding-inline: 2rem; }
+}

@@ -1,0 +1,78 @@
+---
+import Button from '../ui/Button.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import Reveal from '../ui/Reveal.astro';
+import Chip from '../ui/Chip.astro';
+import Blob from '../ui/Blob.astro';
+import ChatMockup from './ChatMockup.astro';
+import { heroAreas } from '../../lib/content';
+---
+<section class="relative pt-28 pb-20 sm:pt-32 sm:pb-28 overflow-hidden">
+  <Blob color="#185FA5" size="640px" class="-top-40 -left-40" opacity={0.18} />
+  <Blob color="#85B7EB" size="520px" class="top-20 -right-40" opacity={0.22} delay="-4s" />
+  <Blob color="#0C447C" size="420px" class="bottom-0 left-1/3" opacity={0.10} delay="-7s" />
+
+  <div class="container-page relative grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-16 items-center">
+    <div>
+      <Reveal>
+        <Eyebrow color="blue" pulse>Inteligencia Artificial Médica</Eyebrow>
+      </Reveal>
+
+      <Reveal delay={80}>
+        <h1 class="mt-5 font-display text-4xl sm:text-5xl md:text-6xl lg:text-[64px] font-extrabold leading-[1.05] tracking-tight">
+          MENTOR <span class="text-[var(--color-brand-500)]">CEAM</span>
+        </h1>
+      </Reveal>
+
+      <Reveal delay={140}>
+        <p class="mt-5 text-xl sm:text-2xl font-medium text-[var(--color-fg)] max-w-xl">
+          Inteligencia Artificial Médica basada en libros de medicina.
+        </p>
+      </Reveal>
+
+      <Reveal delay={200}>
+        <p class="mt-5 text-base sm:text-lg leading-relaxed text-[var(--color-fg-muted)] max-w-xl">
+          La nueva forma de estudiar medicina con una IA diseñada exclusivamente para la formación médica,
+          desde las ciencias básicas hasta la preparación para la Residencia Médica y especialidades Médicas.
+        </p>
+      </Reveal>
+
+      <Reveal delay={260}>
+        <p class="mt-5 italic text-[var(--color-brand-700)] font-medium max-w-xl">
+          Estudia con precisión. Pregunta con libertad. Aprende con estrategia.
+        </p>
+      </Reveal>
+
+      <Reveal delay={340}>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href="#cta" variant="primary" size="lg" shimmer>
+            Ingresar a MENTOR CEAM
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </Button>
+          <Button href="#solucion" variant="secondary" size="lg">
+            Ver cómo funciona
+          </Button>
+        </div>
+      </Reveal>
+
+      <Reveal delay={420}>
+        <div class="mt-10">
+          <p class="text-[11px] uppercase tracking-[0.16em] text-[var(--color-fg-subtle)] mb-3 font-semibold">
+            Base académica
+          </p>
+          <ul class="flex flex-wrap gap-2">
+            {heroAreas.map((area) => (
+              <li><Chip variant="subtle">{area}</Chip></li>
+            ))}
+          </ul>
+        </div>
+      </Reveal>
+    </div>
+
+    <Reveal delay={300} class="relative">
+      <ChatMockup />
+    </Reveal>
+  </div>
+</section>

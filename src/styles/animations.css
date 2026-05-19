@@ -1,0 +1,169 @@
+/* Animations — all gated by prefers-reduced-motion */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes blob {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(30px,-20px) scale(1.06); }
+    66%      { transform: translate(-20px,20px) scale(0.96); }
+  }
+
+  @keyframes pulseRing {
+    0%   { box-shadow: 0 0 0 0 rgba(24,95,165,0.35); }
+    70%  { box-shadow: 0 0 0 14px rgba(24,95,165,0); }
+    100% { box-shadow: 0 0 0 0 rgba(24,95,165,0); }
+  }
+
+  @keyframes shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @keyframes cursorBlink {
+    0%, 49%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @keyframes flechaPulse {
+    0%, 100% { transform: translateY(0); opacity: 0.55; }
+    50%      { transform: translateY(8px); opacity: 1; }
+  }
+
+  @keyframes typingDot {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30%           { transform: translateY(-4px); opacity: 1; }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 1; }
+  }
+
+  /* Reveal on scroll — cinematic */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    filter: blur(4px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  /* Stagger helper: consumers wrap children in <div style="--i: N"> */
+  [data-reveal-stagger] > * {
+    transition-delay: calc(var(--reveal-delay, 0ms) + (var(--i, 0) * var(--reveal-stagger, 80ms)));
+  }
+
+  .anim-blob   { animation: blob 14s ease-in-out infinite; }
+  .anim-pulse-ring { animation: pulseRing 2.2s infinite; }
+  .anim-flecha { animation: flechaPulse 1.8s ease-in-out infinite; }
+  .anim-glow   { animation: glowPulse 3s ease-in-out infinite; }
+
+  .typing-dots span {
+    animation: typingDot 1.2s infinite ease-in-out;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+  .cursor-blink::after {
+    content: "▍";
+    margin-left: 2px;
+    animation: cursorBlink 1s steps(1) infinite;
+    color: var(--color-brand-500);
+  }
+
+  .tilt-3d {
+    transform: perspective(1400px) rotateY(-7deg) rotateX(2deg);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+  .tilt-3d:hover { transform: perspective(1400px) rotateY(0) rotateX(0); }
+
+  .shimmer-btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .shimmer-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+  .shimmer-btn:hover::before {
+    animation: shimmer 0.9s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+  }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .tilt-3d { transform: none !important; }
+}
+
+/* Chat stagger states (controlled by JS) */
+.chat-msg {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.chat-msg.is-shown {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chat-msg.is-hidden {
+  display: none;
+}
+/* Safety net: if JS fails to add is-shown, ensure non-hidden messages are visible */
+.chat-msg:not(.is-hidden):not(.is-shown) {
+  opacity: 1;
+  transform: none;
+}
+
+/* Typewriter cursor for PromptExamples */
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  margin-left: 4px;
+  vertical-align: -0.15em;
+  background-color: var(--color-brand-500);
+  animation: cursorBlink 1s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-cursor { animation: none; opacity: 0.6; }
+}
+
+/* Prompt chips */
+.prompt-chip {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+  color: var(--color-fg-muted);
+  cursor: pointer;
+}
+.prompt-chip:hover {
+  border-color: var(--color-brand-200);
+  color: var(--color-brand-700);
+  transform: translateY(-1px);
+}
+.prompt-chip[data-active="true"] {
+  background: var(--color-brand-500);
+  border-color: var(--color-brand-500);
+  color: white;
+  box-shadow: 0 8px 20px -10px rgba(24,95,165,0.5);
+}

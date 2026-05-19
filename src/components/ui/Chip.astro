@@ -1,0 +1,20 @@
+---
+export interface Props {
+  variant?: 'default' | 'subtle' | 'dark' | 'level-1' | 'level-2' | 'level-3' | 'level-4' | 'level-5';
+  class?: string;
+}
+const { variant = 'default', class: className = '' } = Astro.props;
+const styles: Record<string, string> = {
+  default: 'bg-white border border-[var(--color-border)] text-[var(--color-fg)]',
+  subtle:  'bg-[var(--color-bg-secondary)] text-[var(--color-fg-muted)] border border-[var(--color-border)]',
+  dark:    'bg-white/10 text-white border border-white/15',
+  'level-1': 'bg-[#EEEDFE] text-[#3C3489]',
+  'level-2': 'bg-[#E1F5EE] text-[#085041]',
+  'level-3': 'bg-[#E6F1FB] text-[#0C447C]',
+  'level-4': 'bg-[#FAEEDA] text-[#633806]',
+  'level-5': 'bg-[#FBEAF0] text-[#72243E]',
+};
+---
+<span class={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${styles[variant]} ${className}`}>
+  <slot />
+</span>

@@ -1,0 +1,108 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Reveal from '../ui/Reveal.astro';
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import { features } from '../../lib/content';
+
+// Mapeo de cada feature a una imagen contextual médica
+// Cuando haya fotos reales, reemplazar PlaceholderImage por <img src="..." />
+const imageMap: Record<string, string> = {
+  'Resúmenes médicos inteligentes': 'Estudiante con libros y notas médicas',
+  'Casos clínicos interactivos': 'Médico revisando historial clínico',
+  'Preguntas tipo examen': 'Examen escrito sobre escritorio',
+  'Flashcards de alto rendimiento': 'Manos sosteniendo tarjetas de estudio',
+  'Mapas conceptuales': 'Diagrama médico sobre pizarra',
+  'Explicaciones paso a paso': 'Profesor explicando anatomía',
+  'Diagnóstico diferencial': 'Estetoscopio sobre historia clínica',
+  'Active Recall + Spaced Repetition': 'Estudiante repasando con apuntes',
+};
+
+const defaultOpenIndex = features.findIndex((f) => f.title === 'Active Recall + Spaced Repetition');
+---
+<section id="funciones" class="relative py-20 sm:py-28">
+  <div class="container-page">
+    <SectionHeader
+      eyebrow="Funciones destacadas"
+      eyebrowColor="blue"
+      title="Todo lo que necesitas para estudiar mejor medicina"
+      accentWord="mejor"
+    />
+
+    <div class="mt-14 grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-12 items-start max-w-6xl mx-auto" data-features-root>
+      <Reveal>
+        <div class="rounded-2xl bg-white border border-[var(--color-border)] overflow-hidden shadow-[0_20px_50px_-30px_rgba(4,44,83,0.15)]">
+          {features.map((f, i) => (
+            <details
+              name="features-accordion"
+              open={i === defaultOpenIndex}
+              data-feature
+              data-index={i}
+              class="group border-b border-[var(--color-border)] last:border-b-0 [&[open]>summary>.chevron]:rotate-180 [&[open]>summary]:bg-[var(--color-brand-50)]/40"
+            >
+              <summary class="flex items-center gap-4 px-5 sm:px-7 py-5 cursor-pointer list-none transition-colors duration-200 hover:bg-[var(--color-brand-50)]/30 [&::-webkit-details-marker]:hidden">
+                <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[var(--color-brand-50)] text-[var(--color-brand-500)] transition-all duration-300 group-hover:rotate-6 group-[[open]]:bg-[var(--color-brand-500)] group-[[open]]:text-white">
+                  <Icon name={f.icon} class="h-5 w-5" />
+                </div>
+                <h3 class="flex-1 font-display font-bold text-base sm:text-lg text-[var(--color-fg)] leading-snug">
+                  {f.title}
+                </h3>
+                <Icon
+                  name="tabler:chevron-down"
+                  class="chevron h-5 w-5 shrink-0 text-[var(--color-fg-muted)] transition-transform duration-300"
+                />
+              </summary>
+              <div class="px-5 sm:px-7 pb-7 pt-4 pl-[72px] sm:pl-[88px]">
+                <p class="text-[15px] leading-relaxed text-[var(--color-fg-muted)] max-w-2xl">
+                  {f.description}
+                </p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </Reveal>
+
+      <div class="lg:sticky lg:top-28 order-first lg:order-last">
+        <div class="relative rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_30px_60px_-30px_rgba(4,44,83,0.25)]">
+          {features.map((f, i) => (
+            <div
+              data-feature-image
+              data-index={i}
+              class="transition-opacity duration-500 data-[active=false]:hidden data-[active=true]:opacity-100"
+              data-active={i === defaultOpenIndex ? 'true' : 'false'}
+            >
+              <PlaceholderImage label={imageMap[f.title] ?? f.title} aspect="square" />
+              <div class="absolute inset-x-0 bottom-0 p-5 sm:p-6 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none">
+                <div class="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-sm px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-brand-700)] shadow-sm">
+                  <Icon name={f.icon} class="h-3.5 w-3.5" />
+                  {f.title}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-features-root]');
+  if (root) {
+    const details = Array.from(root.querySelectorAll<HTMLDetailsElement>('details[data-feature]'));
+    const images = Array.from(root.querySelectorAll<HTMLElement>('[data-feature-image]'));
+
+    const syncImage = (openIndex: number) => {
+      images.forEach((img) => {
+        const i = Number(img.dataset.index);
+        img.setAttribute('data-active', i === openIndex ? 'true' : 'false');
+      });
+    };
+
+    details.forEach((d) => {
+      d.addEventListener('toggle', () => {
+        if (d.open) syncImage(Number(d.dataset.index));
+      });
+    });
+  }
+</script>

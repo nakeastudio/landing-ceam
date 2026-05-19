@@ -1,0 +1,35 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Reveal from '../ui/Reveal.astro';
+import { benefits } from '../../lib/content';
+---
+<section id="beneficios" class="relative py-20 sm:py-28">
+  <div class="container-page">
+    <SectionHeader
+      eyebrow="Beneficios principales"
+      eyebrowColor="blue"
+      title="¿Por qué estudiar con MENTOR CEAM?"
+      accentWord="MENTOR CEAM"
+    />
+
+    <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
+      {benefits.map((b, i) => (
+        <Reveal delay={i * 80}>
+          <article class="group h-full rounded-2xl bg-white border border-[var(--color-border)] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-25px_rgba(4,44,83,0.25)] hover:border-[var(--color-brand-200)]">
+            <div class="flex items-center justify-between">
+              <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-brand-50)] text-[var(--color-brand-500)] transition-transform duration-300 group-hover:rotate-6">
+                <Icon name={b.icon} class="h-6 w-6" />
+              </div>
+              <span class="font-display text-3xl font-extrabold text-[var(--color-bg-tertiary)]">
+                0{b.n}
+              </span>
+            </div>
+            <h3 class="mt-5 font-display font-bold text-lg text-[var(--color-fg)]">{b.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-[var(--color-fg-muted)]">{b.description}</p>
+          </article>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+export interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'md' | 'lg';
+  shimmer?: boolean;
+  class?: string;
+  type?: 'button' | 'submit';
+  ariaLabel?: string;
+}
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  shimmer = false,
+  class: className = '',
+  type = 'button',
+  ariaLabel,
+} = Astro.props;
+
+const sizes = {
+  md: 'h-11 px-5 text-sm',
+  lg: 'h-14 px-7 text-base',
+};
+const variants = {
+  primary:   'bg-[var(--color-brand-500)] text-white hover:bg-[var(--color-brand-700)] shadow-[0_8px_24px_-8px_rgba(24,95,165,0.45)]',
+  secondary: 'bg-white text-[var(--color-brand-700)] border border-[var(--color-border)] hover:border-[var(--color-brand-200)]',
+  ghost:     'bg-transparent text-[var(--color-fg)] hover:bg-[var(--color-bg-secondary)]',
+};
+const base = `inline-flex items-center justify-center gap-2 font-semibold rounded-full transition-all duration-200 ${sizes[size]} ${variants[variant]} ${shimmer ? 'shimmer-btn' : ''} ${className}`;
+---
+{href ? (
+  <a href={href} class={base} aria-label={ariaLabel}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={base} aria-label={ariaLabel}>
+    <slot />
+  </button>
+)}

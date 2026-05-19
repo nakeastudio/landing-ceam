@@ -1,0 +1,117 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Reveal from '../ui/Reveal.astro';
+import { solutionCategories } from '../../lib/content';
+
+// Per-category color tokens — azul médico + esmeralda + rojo CEAM
+const palette = {
+  blue:    { bg: '#E6F1FB', fg: '#185FA5', deep: '#042C53', soft: '#C3DEF5' },
+  emerald: { bg: '#E1F5EE', fg: '#0F6E56', deep: '#04342C', soft: '#BCE6D6' },
+  red:     { bg: '#FDECEC', fg: '#DA291C', deep: '#791F1F', soft: '#F5C4C0' },
+} as const;
+---
+<section id="solucion" class="relative py-20 sm:py-28">
+  <div class="container-page">
+    <SectionHeader
+      eyebrow="La solución"
+      eyebrowColor="green"
+      title="¿Qué es MENTOR CEAM?"
+      accentWord="MENTOR CEAM"
+      subtitle="Una IA médica creada para estudiar con profundidad, no con respuestas superficiales."
+    />
+
+    <Reveal delay={120}>
+      <div class="mx-auto mt-8 max-w-3xl text-center text-[var(--color-fg-muted)] text-lg leading-relaxed">
+        <p>
+          Una inteligencia artificial académica orientada al aprendizaje médico estructurado,
+          con base de datos en bibliografía médica desde ciencias básicas hasta especialidades clínicas.
+          No solo responde: enseña, explica, compara, resume, pregunta y entrena tu razonamiento clínico.
+        </p>
+      </div>
+    </Reveal>
+
+    {/* Active Recall callout — purple */}
+    <Reveal delay={200}>
+      <div class="mt-12 mx-auto max-w-3xl rounded-2xl bg-gradient-to-br from-[#EEEDFE] to-[#F5F4FE] border border-[#D6D2F7] p-6 sm:p-8 relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-[#3C3489] opacity-10 blur-3xl"></div>
+        <div class="flex items-start gap-4 relative">
+          <div class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#3C3489] text-white">
+            <Icon name="tabler:repeat" class="h-6 w-6" />
+          </div>
+          <div>
+            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#3C3489]">
+              Active Recall + Spaced Repetition
+            </p>
+            <h3 class="mt-1.5 font-display text-xl sm:text-2xl font-bold text-[#1F1A4A]">
+              MENTOR CEAM usa la metodología Active Recall and Spaced Repetition
+            </h3>
+            <p class="mt-2 text-[var(--color-fg-muted)] leading-relaxed">
+              Las dos técnicas con mayor evidencia científica en educación médica, integradas en cada
+              interacción para que estudies con lógica, profundidad y enfoque de examen.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+
+    <Reveal delay={280}>
+      <div class="mt-14">
+        <p class="text-center font-display text-xl font-semibold text-[var(--color-fg)] mb-8">
+          Puedes utilizarla para:
+        </p>
+        <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {solutionCategories.map((cat, ci) => {
+            const c = palette[cat.color];
+            return (
+              <Reveal delay={ci * 110} class="h-full">
+                <article
+                  class="group relative h-full rounded-2xl border p-7 sm:p-8 transition-all duration-300 hover:-translate-y-1"
+                  style={`background: linear-gradient(140deg, ${c.bg} 0%, white 80%); border-color: ${c.soft};`}
+                >
+                  {/* Glow behind icon on hover */}
+                  <div
+                    class="absolute -top-10 -right-10 h-32 w-32 rounded-full blur-3xl opacity-0 group-hover:opacity-40 transition-opacity duration-500"
+                    style={`background: ${c.fg};`}
+                    aria-hidden="true"
+                  ></div>
+
+                  {/* Icon big */}
+                  <div
+                    class="relative inline-flex h-14 w-14 items-center justify-center rounded-2xl shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+                    style={`background: ${c.fg}; color: white;`}
+                  >
+                    <Icon name={cat.icon} class="h-7 w-7" />
+                  </div>
+
+                  {/* Category label */}
+                  <p
+                    class="relative mt-6 text-[11px] font-bold uppercase tracking-[0.18em]"
+                    style={`color: ${c.fg};`}
+                  >
+                    {cat.label}
+                  </p>
+
+                  {/* Items list */}
+                  <ul class="relative mt-4 space-y-3">
+                    {cat.items.map((item) => (
+                      <li class="flex items-start gap-2.5 text-[15px] leading-snug font-medium" style={`color: ${c.deep};`}>
+                        <span
+                          class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+                          style={`background: ${c.fg}; color: white;`}
+                        >
+                          <Icon name="tabler:check" class="h-3 w-3" stroke-width={3} />
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</section>

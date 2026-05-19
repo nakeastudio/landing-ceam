@@ -1,0 +1,34 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="bg-[#14110E] text-white/80">
+  <div class="container-page py-12">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+      <div class="flex items-center gap-2.5">
+        <span class="grid h-9 w-9 place-items-center rounded-lg bg-[var(--color-brand-500)] text-white">
+          {/* TODO: MENTOR CEAM logo asset pending */}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 4v6a5 5 0 0 0 10 0V4" />
+            <circle cx="18.5" cy="14.5" r="3" />
+            <path d="M11 14v3a5.5 5.5 0 0 0 11 0v-2" />
+          </svg>
+        </span>
+        <span class="font-display font-bold text-white text-[15px] tracking-tight">
+          MENTOR CEAM
+        </span>
+      </div>
+
+      <p class="text-sm text-white/60">
+        Un proyecto de <span class="text-white/85 font-semibold">Curso VIP CEAM</span> · La Paz, Bolivia
+      </p>
+    </div>
+
+    <p class="mt-8 text-xs leading-relaxed text-white/55 max-w-2xl">
+      Herramienta educativa: no reemplaza el criterio clínico ni la evaluación médica directa.
+    </p>
+
+    <p class="mt-6 text-xs text-white/45">
+      © {year} MENTOR CEAM. Todos los derechos reservados.
+    </p>
+  </div>
+</footer>

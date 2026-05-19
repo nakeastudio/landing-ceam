@@ -1,0 +1,61 @@
+---
+import PlaceholderImage from '../ui/PlaceholderImage.astro';
+---
+<div data-chat class="relative tilt-3d">
+  <div class="rounded-2xl overflow-hidden bg-white border border-[var(--color-border)] shadow-[0_30px_80px_-30px_rgba(4,44,83,0.35)]">
+    {/* Browser frame */}
+    <div class="flex items-center gap-1.5 px-4 py-3 bg-[var(--color-bg-secondary)] border-b border-[var(--color-border)]">
+      <span class="h-2.5 w-2.5 rounded-full bg-[#FF5F57]"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-[#28C840]"></span>
+      <div class="ml-3 h-6 flex-1 rounded-md bg-white border border-[var(--color-border)] flex items-center px-3">
+        <span class="text-[11px] text-[var(--color-fg-subtle)] font-mono truncate">mentorceam.com / chat</span>
+      </div>
+    </div>
+
+    {/* Conversation */}
+    <div class="px-5 py-6 sm:px-6 sm:py-7 space-y-4 bg-white min-h-[420px]">
+      {/* USER MESSAGE */}
+      <div data-chat-user class="chat-msg flex gap-3 justify-end">
+        <div class="max-w-[78%] rounded-2xl rounded-tr-md bg-[var(--color-brand-500)] text-white px-4 py-3 text-[15px] leading-relaxed">
+          Explícame el ciclo cardíaco paso a paso como para examen de residencia.
+        </div>
+        {/* TODO: user avatar asset pending */}
+        <PlaceholderImage label="Avatar" aspect="circle" class="h-9 w-9 shrink-0" />
+      </div>
+
+      {/* TYPING DOTS */}
+      <div data-chat-typing class="chat-msg is-hidden flex gap-3 justify-start">
+        {/* TODO: MENTOR CEAM logo asset pending */}
+        <PlaceholderImage label="MENTOR" aspect="circle" class="h-9 w-9 shrink-0" />
+        <div class="rounded-2xl rounded-tl-md bg-[var(--color-bg-secondary)] border border-[var(--color-border)] px-4 py-3 flex items-center gap-1 typing-dots">
+          <span class="h-2 w-2 rounded-full bg-[var(--color-brand-500)] inline-block"></span>
+          <span class="h-2 w-2 rounded-full bg-[var(--color-brand-500)] inline-block"></span>
+          <span class="h-2 w-2 rounded-full bg-[var(--color-brand-500)] inline-block"></span>
+        </div>
+      </div>
+
+      {/* BOT RESPONSE */}
+      <div data-chat-bot class="chat-msg is-hidden flex gap-3 justify-start">
+        <PlaceholderImage label="MENTOR" aspect="circle" class="h-9 w-9 shrink-0" />
+        <div class="max-w-[80%] rounded-2xl rounded-tl-md bg-[var(--color-bg-secondary)] border border-[var(--color-border)] px-4 py-3 text-[14.5px] leading-relaxed text-[var(--color-fg)]">
+          <p class="font-semibold mb-2">Ciclo cardíaco — enfoque examen de residencia:</p>
+          <ol class="space-y-1.5 list-decimal pl-4 text-[var(--color-fg-muted)]">
+            <li><strong class="text-[var(--color-fg)]">Sístole auricular</strong> — contracción auricular, llenado ventricular final (~20%).</li>
+            <li><strong class="text-[var(--color-fg)]">Contracción isovolumétrica</strong> — cierre válvulas AV (R1), presión ventricular sube.</li>
+            <li><strong class="text-[var(--color-fg)]">Eyección ventricular</strong> — apertura válvulas semilunares, salida de sangre.</li>
+            <li><strong class="text-[var(--color-fg)]">Relajación isovolumétrica</strong> — cierre semilunares (R2), inicio diástole.</li>
+            <li><strong class="text-[var(--color-fg)]">Llenado ventricular</strong> — apertura AV, fase pasiva + activa.</li>
+          </ol>
+          <p class="mt-3 text-[13px] text-[var(--color-fg-subtle)]">Fuente: Guyton & Hall — Fisiología Médica.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Floating decorative element */}
+  <div class="absolute -top-4 -right-4 hidden sm:flex items-center gap-2 rounded-full bg-white border border-[var(--color-border)] px-3 py-1.5 shadow-lg">
+    <span class="h-2 w-2 rounded-full bg-[#0F6E56]"></span>
+    <span class="text-[11px] font-semibold text-[var(--color-fg-muted)]">IA médica activa</span>
+  </div>
+</div>

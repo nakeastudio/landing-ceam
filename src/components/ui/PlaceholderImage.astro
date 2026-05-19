@@ -1,0 +1,53 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export type PlaceholderAspect = 'banner' | 'square' | 'circle' | 'video' | 'portrait';
+export interface Props {
+  label: string;
+  aspect?: PlaceholderAspect;
+  class?: string;
+}
+const { label, aspect = 'square', class: className = '' } = Astro.props;
+
+const ratios: Record<PlaceholderAspect, string> = {
+  banner: '21/9',
+  square: '1/1',
+  circle: '1/1',
+  video: '16/9',
+  portrait: '4/5',
+};
+const rounded = aspect === 'circle' ? 'rounded-full' : 'rounded-2xl';
+const ratio = ratios[aspect];
+
+// If the consumer passes its own sizing (h-N / w-N / size-N), don't force w-full.
+const hasOwnSize = /(^|\s)(h-|w-|size-|max-w-)/.test(className);
+const sizing = hasOwnSize ? '' : 'w-full';
+// Avatars don't need the giant icon nor a visible label
+const isAvatar = aspect === 'circle' && /(h-(8|9|10|11|12)|size-(8|9|10|11|12))/.test(className);
+---
+<div
+  class={`relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-[var(--color-placeholder)] to-[#E5E1DC] text-[var(--color-fg-subtle)] ${rounded} ${sizing} ${className}`}
+  style={`aspect-ratio:${ratio};`}
+  aria-label={label}
+  role="img"
+>
+  {!isAvatar && (
+    <Icon
+      name="tabler:stethoscope"
+      class="absolute h-2/3 w-2/3 text-[var(--color-fg-subtle)] opacity-[0.08]"
+      aria-hidden="true"
+    />
+  )}
+  {!isAvatar && (
+    <span class="relative z-10 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] px-4 text-center">
+      {label}
+    </span>
+  )}
+  {isAvatar && (
+    <Icon
+      name="tabler:user"
+      class="h-1/2 w-1/2 text-[var(--color-fg-subtle)] opacity-50"
+      aria-hidden="true"
+    />
+  )}
+</div>
