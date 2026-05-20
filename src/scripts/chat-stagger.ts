@@ -6,10 +6,10 @@
 type Phase = 'user' | 'typing' | 'bot' | 'image' | 'followup' | 'rest';
 
 const TIMINGS: Record<Phase, number> = {
-  user: 1000,
-  typing: 2000,
-  bot: 5000,
-  image: 1800,
+  user: 900,
+  typing: 1500,
+  bot: 3000,
+  image: 4500,
   followup: 5500,
   rest: 800,
 };
