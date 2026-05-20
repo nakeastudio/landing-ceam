@@ -62,23 +62,26 @@ const defaultOpenIndex = features.findIndex((f) => f.title === 'Active Recall + 
       </Reveal>
 
       <div class="lg:sticky lg:top-28 order-first lg:order-last">
-        <div class="relative rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_30px_60px_-30px_rgba(4,44,83,0.25)] bg-white">
+        <div class="relative rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_30px_60px_-30px_rgba(4,44,83,0.25)] bg-[var(--color-brand-50)]">
           {features.map((f, i) => {
             const img = imageMap[f.title];
+            const isDefault = i === defaultOpenIndex;
             return (
               <div
                 data-feature-image
                 data-index={i}
-                class="relative transition-opacity duration-500 data-[active=false]:hidden data-[active=true]:opacity-100"
-                data-active={i === defaultOpenIndex ? 'true' : 'false'}
+                class="relative transition-opacity duration-500 data-[active=false]:hidden data-[active=true]:opacity-100 bg-[var(--color-brand-50)]"
+                data-active={isDefault ? 'true' : 'false'}
               >
                 <img
                   src={img?.src}
                   alt={img?.alt ?? f.title}
-                  class="w-full aspect-square object-cover"
+                  class="w-full aspect-square object-cover bg-[var(--color-brand-50)]"
                   width="800"
                   height="800"
-                  loading={i === defaultOpenIndex ? 'eager' : 'lazy'}
+                  loading="eager"
+                  decoding="async"
+                  fetchpriority={isDefault ? 'high' : 'low'}
                 />
                 {/* Tint duotone sutil — no mata los detalles de la foto */}
                 <div class="pointer-events-none absolute inset-0 bg-[#185FA5] mix-blend-color opacity-50"></div>
