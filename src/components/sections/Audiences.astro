@@ -24,42 +24,42 @@ const defaultIndex = Math.max(0, audiences.findIndex((a) => a.highlighted));
 
       <Reveal>
         <div
-          class="relative rounded-3xl bg-white border border-[var(--color-border)] shadow-[0_30px_60px_-30px_rgba(15,23,42,0.18)] overflow-hidden"
+          class="relative rounded-2xl sm:rounded-3xl bg-white border border-[var(--color-border)] shadow-[0_30px_60px_-30px_rgba(15,23,42,0.18)] overflow-hidden"
           data-audience-root
         >
           {audiences.map((a, i) => (
             <div
-              class="px-7 sm:px-10 py-10 sm:py-12 transition-opacity duration-300 data-[active=false]:hidden"
+              class="px-5 sm:px-8 lg:px-10 py-8 sm:py-10 lg:py-12 transition-opacity duration-300 data-[active=false]:hidden"
               data-audience-panel
               data-index={i}
               data-active={i === defaultIndex ? 'true' : 'false'}
             >
-              <div class="flex items-start gap-5">
-                <div class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[var(--color-brand-50)] text-[var(--color-brand-500)]">
-                  <Icon name={a.icon} class="h-7 w-7" />
+              <div class="flex items-start gap-3 sm:gap-5">
+                <div class="grid h-11 w-11 sm:h-14 sm:w-14 shrink-0 place-items-center rounded-xl sm:rounded-2xl bg-[var(--color-brand-50)] text-[var(--color-brand-500)]">
+                  <Icon name={a.icon} class="h-5 w-5 sm:h-7 sm:w-7" />
                 </div>
                 <div class="flex-1 min-w-0">
-                  <div class="flex flex-wrap items-center gap-3">
-                    <h3 class="font-display font-bold text-2xl text-[var(--color-fg)] leading-tight">{a.title}</h3>
+                  <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                    <h3 class="font-display font-bold text-lg sm:text-2xl text-[var(--color-fg)] leading-tight break-words min-w-0">{a.title}</h3>
                     {a.highlighted && (
-                      <span class="inline-flex items-center gap-1 rounded-full bg-[var(--color-brand-500)] text-white text-[10px] font-bold uppercase tracking-[0.16em] px-2.5 py-1">
+                      <span class="inline-flex items-center gap-1 rounded-full bg-[var(--color-brand-500)] text-white text-[10px] font-bold uppercase tracking-[0.16em] px-2.5 py-1 whitespace-nowrap">
                         Más popular
                       </span>
                     )}
                   </div>
-                  <p class="mt-3 text-base leading-relaxed text-[var(--color-fg-muted)]">{a.description}</p>
+                  <p class="mt-2 sm:mt-3 text-sm sm:text-base leading-relaxed text-[var(--color-fg-muted)]">{a.description}</p>
                 </div>
               </div>
 
-              <div class="mt-8 pt-6 border-t border-[var(--color-border)]">
-                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-fg-muted)] mb-4">
+              <div class="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-[var(--color-border)]">
+                <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] sm:tracking-[0.16em] text-[var(--color-fg-muted)] mb-3 sm:mb-4">
                   Lo que vas a poder estudiar
                 </p>
-                <ul class="flex flex-wrap gap-2">
+                <ul class="flex flex-wrap gap-1.5 sm:gap-2">
                   {a.subjects.map((s) => (
-                    <li class="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-brand-50)] text-[var(--color-brand-700)] text-sm font-medium px-3.5 py-1.5">
-                      <Icon name="tabler:check" class="h-3.5 w-3.5" />
-                      {s}
+                    <li class="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-brand-50)] text-[var(--color-brand-700)] text-[12px] sm:text-sm font-medium px-2.5 sm:px-3.5 py-1 sm:py-1.5">
+                      <Icon name="tabler:check" class="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
+                      <span class="break-words">{s}</span>
                     </li>
                   ))}
                 </ul>
@@ -67,11 +67,11 @@ const defaultIndex = Math.max(0, audiences.findIndex((a) => a.highlighted));
             </div>
           ))}
 
-          <div class="px-3 sm:px-4 pb-4 sm:pb-5 pt-1 border-t border-[var(--color-border)] bg-[var(--color-bg-secondary)]/40">
+          <div class="px-2 sm:px-4 pb-3 sm:pb-5 pt-1 border-t border-[var(--color-border)] bg-[var(--color-bg-secondary)]/40">
             <div
               role="tablist"
               aria-label="Etapas de formación"
-              class="flex gap-1.5 overflow-x-auto scroll-smooth snap-x snap-mandatory -mx-1 px-1 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              class="flex gap-1.5 overflow-x-auto scroll-smooth snap-x snap-mandatory -mx-1 px-1 py-2.5 sm:py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               data-audience-tablist
             >
               {audiences.map((a, i) => (
@@ -81,9 +81,9 @@ const defaultIndex = Math.max(0, audiences.findIndex((a) => a.highlighted));
                   data-audience-tab
                   data-index={i}
                   aria-selected={i === defaultIndex ? 'true' : 'false'}
-                  class="group snap-start shrink-0 inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all duration-200 aria-selected:bg-[var(--color-brand-500)] aria-selected:text-white aria-selected:border-[var(--color-brand-500)] aria-selected:shadow-[0_10px_24px_-12px_rgba(24,95,165,0.55)] aria-[selected=false]:bg-white aria-[selected=false]:text-[var(--color-fg)] aria-[selected=false]:border-[var(--color-border)] aria-[selected=false]:hover:border-[var(--color-brand-300)] aria-[selected=false]:hover:text-[var(--color-brand-700)]"
+                  class="group snap-start shrink-0 inline-flex items-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-xl border px-3 sm:px-4 py-2 sm:py-2.5 text-[13px] sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 aria-selected:bg-[var(--color-brand-500)] aria-selected:text-white aria-selected:border-[var(--color-brand-500)] aria-selected:shadow-[0_10px_24px_-12px_rgba(24,95,165,0.55)] aria-[selected=false]:bg-white aria-[selected=false]:text-[var(--color-fg)] aria-[selected=false]:border-[var(--color-border)] aria-[selected=false]:hover:border-[var(--color-brand-300)] aria-[selected=false]:hover:text-[var(--color-brand-700)]"
                 >
-                  <Icon name={a.icon} class="h-4 w-4" />
+                  <Icon name={a.icon} class="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                   <span>{a.shortLabel}</span>
                 </button>
               ))}

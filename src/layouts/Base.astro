@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import WhatsAppBubble from '../components/ui/WhatsAppBubble.astro';
 
 export interface Props {
   title?: string;
@@ -67,7 +68,8 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/assets/logo.png" />
+    <link rel="apple-touch-icon" href="/assets/logo.png" />
     <meta name="theme-color" content="#185FA5" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
@@ -75,11 +77,14 @@ const jsonLd = {
   <body class="bg-bg text-fg">
     <slot />
 
+    <WhatsAppBubble />
+
     <script>
       import '../scripts/reveal';
       import '../scripts/nav-scroll';
       import '../scripts/chat-stagger';
       import '../scripts/prompt-typewriter';
+      import '../scripts/whatsapp-bubble';
     </script>
   </body>
 </html>

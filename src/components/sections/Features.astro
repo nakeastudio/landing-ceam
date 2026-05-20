@@ -2,20 +2,19 @@
 import { Icon } from 'astro-icon/components';
 import SectionHeader from '../ui/SectionHeader.astro';
 import Reveal from '../ui/Reveal.astro';
-import PlaceholderImage from '../ui/PlaceholderImage.astro';
 import { features } from '../../lib/content';
 
-// Mapeo de cada feature a una imagen contextual médica
-// Cuando haya fotos reales, reemplazar PlaceholderImage por <img src="..." />
-const imageMap: Record<string, string> = {
-  'Resúmenes médicos inteligentes': 'Estudiante con libros y notas médicas',
-  'Casos clínicos interactivos': 'Médico revisando historial clínico',
-  'Preguntas tipo examen': 'Examen escrito sobre escritorio',
-  'Flashcards de alto rendimiento': 'Manos sosteniendo tarjetas de estudio',
-  'Mapas conceptuales': 'Diagrama médico sobre pizarra',
-  'Explicaciones paso a paso': 'Profesor explicando anatomía',
-  'Diagnóstico diferencial': 'Estetoscopio sobre historia clínica',
-  'Active Recall + Spaced Repetition': 'Estudiante repasando con apuntes',
+// Mapeo de cada feature a imagen + alt text. Las imágenes están en /public/assets/feature-N.webp
+// y se renderizan con tratamiento duotono brand (grayscale + multiply sobre azul #185FA5).
+const imageMap: Record<string, { src: string; alt: string }> = {
+  'Resúmenes médicos inteligentes':       { src: '/assets/feature-1.webp', alt: 'Estudiante con libros y notas médicas' },
+  'Casos clínicos interactivos':          { src: '/assets/feature-2.webp', alt: 'Médico revisando historial clínico' },
+  'Preguntas tipo examen':                { src: '/assets/feature-3.webp', alt: 'Examen escrito sobre escritorio' },
+  'Flashcards de alto rendimiento':       { src: '/assets/feature-4.webp', alt: 'Manos sosteniendo tarjetas de estudio' },
+  'Mapas conceptuales':                   { src: '/assets/feature-5.webp', alt: 'Diagrama médico sobre pizarra' },
+  'Explicaciones paso a paso':            { src: '/assets/feature-6.webp', alt: 'Profesor explicando anatomía' },
+  'Diagnóstico diferencial':              { src: '/assets/feature-7.webp', alt: 'Estetoscopio sobre historia clínica' },
+  'Active Recall + Spaced Repetition':    { src: '/assets/feature-8.webp', alt: 'Estudiante repasando con apuntes' },
 };
 
 const defaultOpenIndex = features.findIndex((f) => f.title === 'Active Recall + Spaced Repetition');
@@ -63,23 +62,36 @@ const defaultOpenIndex = features.findIndex((f) => f.title === 'Active Recall + 
       </Reveal>
 
       <div class="lg:sticky lg:top-28 order-first lg:order-last">
-        <div class="relative rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_30px_60px_-30px_rgba(4,44,83,0.25)]">
-          {features.map((f, i) => (
-            <div
-              data-feature-image
-              data-index={i}
-              class="transition-opacity duration-500 data-[active=false]:hidden data-[active=true]:opacity-100"
-              data-active={i === defaultOpenIndex ? 'true' : 'false'}
-            >
-              <PlaceholderImage label={imageMap[f.title] ?? f.title} aspect="square" />
-              <div class="absolute inset-x-0 bottom-0 p-5 sm:p-6 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none">
-                <div class="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-sm px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-brand-700)] shadow-sm">
-                  <Icon name={f.icon} class="h-3.5 w-3.5" />
-                  {f.title}
+        <div class="relative rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_30px_60px_-30px_rgba(4,44,83,0.25)] bg-white">
+          {features.map((f, i) => {
+            const img = imageMap[f.title];
+            return (
+              <div
+                data-feature-image
+                data-index={i}
+                class="relative transition-opacity duration-500 data-[active=false]:hidden data-[active=true]:opacity-100"
+                data-active={i === defaultOpenIndex ? 'true' : 'false'}
+              >
+                <img
+                  src={img?.src}
+                  alt={img?.alt ?? f.title}
+                  class="w-full aspect-square object-cover"
+                  width="800"
+                  height="800"
+                  loading={i === defaultOpenIndex ? 'eager' : 'lazy'}
+                />
+                {/* Tint duotone sutil — no mata los detalles de la foto */}
+                <div class="pointer-events-none absolute inset-0 bg-[#185FA5] mix-blend-color opacity-50"></div>
+                <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#185FA5]/20 via-transparent to-[#0B3B5C]/20 mix-blend-multiply"></div>
+                <div class="absolute inset-x-0 bottom-0 p-5 sm:p-6 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none">
+                  <div class="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-sm px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-brand-700)] shadow-sm">
+                    <Icon name={f.icon} class="h-3.5 w-3.5" />
+                    {f.title}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

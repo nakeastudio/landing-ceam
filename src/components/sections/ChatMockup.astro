@@ -1,5 +1,5 @@
 ---
-import PlaceholderImage from '../ui/PlaceholderImage.astro';
+import { Icon } from 'astro-icon/components';
 ---
 <div data-chat class="relative tilt-3d">
   <div class="rounded-2xl overflow-hidden bg-white border border-[var(--color-border)] shadow-[0_30px_80px_-30px_rgba(4,44,83,0.35)]">
@@ -20,14 +20,20 @@ import PlaceholderImage from '../ui/PlaceholderImage.astro';
         <div class="max-w-[78%] rounded-2xl rounded-tr-md bg-[var(--color-brand-500)] text-white px-4 py-3 text-[15px] leading-relaxed">
           Explícame el ciclo cardíaco paso a paso como para examen de residencia.
         </div>
-        {/* TODO: user avatar asset pending */}
-        <PlaceholderImage label="Avatar" aspect="circle" class="h-9 w-9 shrink-0" />
+        <div class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] text-[var(--color-fg-muted)]">
+          <Icon name="tabler:user" class="h-5 w-5" />
+        </div>
       </div>
 
       {/* TYPING DOTS */}
       <div data-chat-typing class="chat-msg is-hidden flex gap-3 justify-start">
-        {/* TODO: MENTOR CEAM logo asset pending */}
-        <PlaceholderImage label="MENTOR" aspect="circle" class="h-9 w-9 shrink-0" />
+        <img
+          src="/assets/chatbot.png"
+          alt="MENTOR CEAM"
+          class="h-9 w-9 shrink-0 rounded-full object-cover bg-white ring-1 ring-[var(--color-border)]"
+          width="36"
+          height="36"
+        />
         <div class="rounded-2xl rounded-tl-md bg-[var(--color-bg-secondary)] border border-[var(--color-border)] px-4 py-3 flex items-center gap-1 typing-dots">
           <span class="h-2 w-2 rounded-full bg-[var(--color-brand-500)] inline-block"></span>
           <span class="h-2 w-2 rounded-full bg-[var(--color-brand-500)] inline-block"></span>
@@ -37,7 +43,13 @@ import PlaceholderImage from '../ui/PlaceholderImage.astro';
 
       {/* BOT RESPONSE */}
       <div data-chat-bot class="chat-msg is-hidden flex gap-3 justify-start">
-        <PlaceholderImage label="MENTOR" aspect="circle" class="h-9 w-9 shrink-0" />
+        <img
+          src="/assets/chatbot.png"
+          alt="MENTOR CEAM"
+          class="h-9 w-9 shrink-0 rounded-full object-cover bg-white ring-1 ring-[var(--color-border)]"
+          width="36"
+          height="36"
+        />
         <div class="max-w-[80%] rounded-2xl rounded-tl-md bg-[var(--color-bg-secondary)] border border-[var(--color-border)] px-4 py-3 text-[14.5px] leading-relaxed text-[var(--color-fg)]">
           <p class="font-semibold mb-2">Ciclo cardíaco — enfoque examen de residencia:</p>
           <ol class="space-y-1.5 list-decimal pl-4 text-[var(--color-fg-muted)]">

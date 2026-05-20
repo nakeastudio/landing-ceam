@@ -7,57 +7,74 @@ import { problems } from '../../lib/content';
 ---
 <section id="problema" class="relative pt-24 pb-20 sm:pb-28 bg-[var(--color-bg-secondary)]">
   <div class="container-page">
-    <SectionHeader
-      eyebrow="Problema"
-      eyebrowColor="red"
-      title="Estudiar medicina es difícil cuando la información está dispersa"
-      accentWord="dispersa"
-    />
+    <div class="grid md:grid-cols-12 gap-10 md:gap-12 items-center max-w-6xl mx-auto">
+      {/* LEFT — text */}
+      <div class="md:col-span-7">
+        <SectionHeader
+          eyebrow="Problema"
+          eyebrowColor="red"
+          title="Estudiar medicina es difícil cuando la información está dispersa"
+          accentWord="dispersa"
+          align="left"
+        />
 
-    <Reveal delay={120}>
-      <p class="mx-auto mt-6 max-w-2xl text-center text-[var(--color-fg-muted)] text-lg leading-relaxed">
-        Demasiados libros, demasiados temas, poco tiempo y poca orientación sobre qué estudiar primero.
-      </p>
-    </Reveal>
+        <Reveal delay={120}>
+          <p class="mt-6 text-[var(--color-fg-muted)] text-lg leading-relaxed">
+            Demasiados libros, demasiados temas, poco tiempo y poca orientación sobre qué estudiar primero.
+          </p>
+        </Reveal>
+      </div>
 
-    <div class="mt-14 grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-14 items-center max-w-6xl mx-auto">
-      <Reveal>
-        <div class="relative">
-          <div class="relative rounded-3xl overflow-hidden shadow-[0_40px_80px_-30px_rgba(4,44,83,0.35)]">
-            <PlaceholderImage label="Estudiante de medicina agobiado entre libros" aspect="portrait" />
-            <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[var(--color-brand-700)]/30 via-transparent to-transparent mix-blend-multiply"></div>
-          </div>
-          <div class="absolute -bottom-5 -right-5 sm:-bottom-6 sm:-right-6 max-w-[220px] rounded-2xl bg-white border border-[var(--color-border)] shadow-[0_20px_40px_-20px_rgba(4,44,83,0.25)] p-4">
-            <div class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8C1F18]">
-              <span class="inline-block h-2 w-2 rounded-full bg-[#8C1F18] animate-pulse"></span>
-              2:47 AM
+      {/* RIGHT — image */}
+      <div class="md:col-span-5 flex md:justify-end">
+        <Reveal>
+          <div class="relative w-full max-w-[420px]">
+            <div class="relative rounded-3xl overflow-hidden shadow-[0_40px_80px_-30px_rgba(4,44,83,0.35)]">
+              <img
+                src="/assets/problem.webp"
+                alt="Estudiante de medicina agobiada entre libros"
+                class="w-full aspect-square object-cover"
+                width="800"
+                height="800"
+                loading="lazy"
+              />
+              {/* Tint duotone sutil — preserva los detalles de la foto */}
+              <div class="pointer-events-none absolute inset-0 bg-[#185FA5] mix-blend-color opacity-50"></div>
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[var(--color-brand-700)]/25 via-transparent to-transparent mix-blend-multiply"></div>
             </div>
-            <p class="mt-1.5 text-[13px] leading-snug text-[var(--color-fg)] font-medium">
-              "Sigo en el capítulo 3 y el examen es en 12 horas."
-            </p>
+            <div class="absolute -bottom-5 -right-5 sm:-bottom-6 sm:-right-6 max-w-[220px] rounded-2xl bg-white border border-[var(--color-border)] shadow-[0_20px_40px_-20px_rgba(4,44,83,0.25)] p-4">
+              <div class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8C1F18]">
+                <span class="inline-block h-2 w-2 rounded-full bg-[#8C1F18] animate-pulse"></span>
+                2:47 AM
+              </div>
+              <p class="mt-1.5 text-[13px] leading-snug text-[var(--color-fg)] font-medium">
+                "Sigo en el capítulo 3 y el examen es en 12 horas."
+              </p>
+            </div>
           </div>
-        </div>
-      </Reveal>
-
-      <Reveal delay={120}>
-        <ul class="space-y-2">
-          {problems.map((p, i) => (
-            <li class="group flex items-start gap-5 rounded-2xl p-5 transition-colors duration-200 hover:bg-white">
-              <div class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#FBE5E3] text-[#8C1F18] transition-transform duration-300 group-hover:rotate-6">
-                <Icon name={p.icon} class="h-5 w-5" />
-              </div>
-              <div class="flex-1 min-w-0 pt-1">
-                <h3 class="font-display font-bold text-lg text-[var(--color-fg)] leading-snug">{p.title}</h3>
-                <p class="mt-1.5 text-[14.5px] leading-relaxed text-[var(--color-fg-muted)]">{p.description}</p>
-              </div>
-              <div class="hidden sm:block pt-2 text-[var(--color-fg-subtle)] text-xs font-mono tabular-nums">
-                0{i + 1}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Reveal>
+        </Reveal>
+      </div>
     </div>
+
+    {/* Pain-point cards — full width below the 2-col block */}
+    <Reveal delay={120}>
+      <ul class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 max-w-6xl mx-auto">
+        {problems.map((p, i) => (
+          <li class="group relative flex flex-col gap-3 rounded-2xl p-5 bg-white border border-[var(--color-border)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_20px_40px_-20px_rgba(4,44,83,0.25)]">
+            <div class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#FBE5E3] text-[#8C1F18] transition-transform duration-300 group-hover:rotate-6">
+              <Icon name={p.icon} class="h-5 w-5" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display font-bold text-lg text-[var(--color-fg)] leading-snug">{p.title}</h3>
+              <p class="mt-1.5 text-[14px] leading-relaxed text-[var(--color-fg-muted)]">{p.description}</p>
+            </div>
+            <div class="absolute top-3 right-4 text-[var(--color-fg-subtle)] text-xs font-mono tabular-nums">
+              0{i + 1}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Reveal>
 
     {/* Pull quote + arrow into Solution */}
     <Reveal delay={200}>
