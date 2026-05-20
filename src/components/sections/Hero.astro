@@ -76,8 +76,8 @@ import { heroAreas } from '../../lib/content';
         <ChatMockup />
       </Reveal>
 
-      {/* Community proof card — debajo del chat, refuerza social proof */}
-      <Reveal delay={420}>
+      {/* Community proof card — solo desktop; en mobile el chat es protagonista */}
+      <Reveal delay={420} class="hidden lg:block">
         <div class="relative rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_20px_50px_-25px_rgba(4,44,83,0.25)]">
           <img
             src="/assets/students-group.webp"
