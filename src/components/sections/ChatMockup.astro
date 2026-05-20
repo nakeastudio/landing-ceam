@@ -13,8 +13,8 @@ import { Icon } from 'astro-icon/components';
       </div>
     </div>
 
-    {/* Conversation */}
-    <div class="px-5 py-6 sm:px-6 sm:py-7 space-y-4 bg-white min-h-[420px]">
+    {/* Conversation — altura fija para evitar layout shift cuando el bot responde */}
+    <div class="px-5 py-6 sm:px-6 sm:py-7 space-y-4 bg-white h-[520px] sm:h-[500px] overflow-y-auto">
       {/* USER MESSAGE */}
       <div data-chat-user class="chat-msg flex gap-3 justify-end">
         <div class="max-w-[78%] rounded-2xl rounded-tr-md bg-[var(--color-brand-500)] text-white px-4 py-3 text-[15px] leading-relaxed">
