@@ -13,8 +13,35 @@ import { Icon } from 'astro-icon/components';
       </div>
     </div>
 
+    {/* Chat header — comunidad CEAM como avatar grupal del chat */}
+    <div class="flex items-center gap-3 px-5 py-3 bg-white border-b border-[var(--color-border)]">
+      <div class="relative h-10 w-10 shrink-0 rounded-full overflow-hidden ring-2 ring-white shadow-[0_2px_8px_rgba(4,44,83,0.15)]">
+        <img
+          src="/assets/students-group.webp"
+          alt="Comunidad CEAM"
+          class="absolute inset-0 w-full h-full object-cover scale-110"
+          width="80"
+          height="80"
+          loading="eager"
+          decoding="async"
+        />
+        <div class="absolute inset-0 bg-[#185FA5] mix-blend-color opacity-40"></div>
+        <span class="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#10B981] ring-2 ring-white"></span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="font-display font-bold text-[14px] text-[var(--color-fg)] leading-tight">
+          MENTOR CEAM
+        </p>
+        <p class="mt-0.5 flex items-center gap-1.5 text-[11px] text-[var(--color-fg-muted)]">
+          <span class="inline-block h-1.5 w-1.5 rounded-full bg-[#10B981]"></span>
+          Comunidad CEAM · En línea
+        </p>
+      </div>
+      <Icon name="tabler:dots-vertical" class="h-4 w-4 text-[var(--color-fg-subtle)] shrink-0" />
+    </div>
+
     {/* Conversation — altura fija para evitar layout shift cuando el bot responde */}
-    <div class="px-5 py-6 sm:px-6 sm:py-7 space-y-4 bg-white h-[520px] sm:h-[500px] overflow-y-auto">
+    <div class="px-5 py-6 sm:px-6 sm:py-7 space-y-4 bg-white h-[460px] sm:h-[440px] overflow-y-auto">
       {/* USER MESSAGE */}
       <div data-chat-user class="chat-msg flex gap-3 justify-end">
         <div class="max-w-[78%] rounded-2xl rounded-tr-md bg-[var(--color-brand-500)] text-white px-4 py-3 text-[15px] leading-relaxed">
