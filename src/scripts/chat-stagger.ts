@@ -1,17 +1,16 @@
-// Hero chat mockup orchestrator.
-// Sequence: user → typing → bot (medical) → image (community) → followup (soft CTA).
-// Auto-scrolls the conversation container to the bottom on each new message.
-// Loops every ~16s. Pauses when document.hidden === true.
+// Hero chat mockup — one-shot intro animation.
+// Plays once on load: user → typing → bot (1 line) → image → followup.
+// After the sequence completes, stays in the final state with focus on the image.
+// Pauses while document.hidden === true so the animation runs when the tab becomes visible.
 
-type Phase = 'user' | 'typing' | 'bot' | 'image' | 'followup' | 'rest';
+type Phase = 'user' | 'typing' | 'bot' | 'image' | 'followup';
 
 const TIMINGS: Record<Phase, number> = {
-  user: 900,
-  typing: 1500,
-  bot: 3000,
-  image: 4500,
-  followup: 5500,
-  rest: 800,
+  user: 900,     // user message visible before typing appears
+  typing: 1300,  // typing dots duration
+  bot: 1800,    // bot text visible before image arrives
+  image: 1500,  // image visible before followup arrives
+  followup: 0,  // stays visible at end
 };
 
 const init = (): void => {
@@ -34,14 +33,23 @@ const init = (): void => {
     scrollEl.scrollTo({ top: scrollEl.scrollHeight, behavior: 'smooth' });
   };
 
-  const show = (el: HTMLElement): void => {
+  const scrollIntoView = (el: HTMLElement): void => {
+    if (!scrollEl) return;
+    const elTop = el.offsetTop - scrollEl.offsetTop;
+    scrollEl.scrollTo({ top: Math.max(0, elTop - 16), behavior: 'smooth' });
+  };
+
+  const show = (el: HTMLElement, scrollTo: 'bottom' | 'self' = 'bottom'): void => {
     el.classList.remove('is-hidden');
     requestAnimationFrame(() => {
       el.classList.add('is-shown');
-      // Wait a frame for layout, then scroll to bottom
-      requestAnimationFrame(scrollToBottom);
+      requestAnimationFrame(() => {
+        if (scrollTo === 'self') scrollIntoView(el);
+        else scrollToBottom();
+      });
     });
   };
+
   const hide = (el: HTMLElement, immediate = false): void => {
     el.classList.remove('is-shown');
     if (immediate) el.classList.add('is-hidden');
@@ -53,62 +61,54 @@ const init = (): void => {
       timer = window.setTimeout(resolve, ms);
     });
 
-  const reset = (): void => {
-    [userMsg, typingMsg, botMsg, imageMsg, followupMsg].forEach((el) => {
-      el.classList.remove('is-shown');
-      el.classList.add('is-hidden');
+  const waitVisible = async (): Promise<void> => {
+    if (!document.hidden) return;
+    await new Promise<void>((resolve) => {
+      const onVisible = (): void => {
+        if (!document.hidden) {
+          document.removeEventListener('visibilitychange', onVisible);
+          resolve();
+        }
+      };
+      document.addEventListener('visibilitychange', onVisible);
     });
-    if (scrollEl) scrollEl.scrollTop = 0;
   };
 
-  const loop = async (): Promise<void> => {
-    while (!cancelled) {
-      if (document.hidden) {
-        await new Promise<void>((resolve) => {
-          const onVisible = (): void => {
-            if (!document.hidden) {
-              document.removeEventListener('visibilitychange', onVisible);
-              resolve();
-            }
-          };
-          document.addEventListener('visibilitychange', onVisible);
-        });
-      }
+  const run = async (): Promise<void> => {
+    if (cancelled) return;
+    await waitVisible();
 
-      reset();
-      await wait(TIMINGS.rest);
+    // user is already visible from the initial state
+    await wait(TIMINGS.user);
+    if (cancelled) return;
 
-      show(userMsg);
-      await wait(TIMINGS.user);
+    show(typingMsg);
+    await wait(TIMINGS.typing);
+    if (cancelled) return;
 
-      show(typingMsg);
-      await wait(TIMINGS.typing);
+    hide(typingMsg, true);
+    show(botMsg);
+    await wait(TIMINGS.bot);
+    if (cancelled) return;
 
-      hide(typingMsg, true);
-      show(botMsg);
-      await wait(TIMINGS.bot);
+    show(imageMsg, 'self'); // scroll to keep image in focus, not pushed off top
+    await wait(TIMINGS.image);
+    if (cancelled) return;
 
-      show(imageMsg);
-      await wait(TIMINGS.image);
-
-      show(followupMsg);
-      await wait(TIMINGS.followup);
-
-      hide(userMsg);
-      hide(botMsg);
-      hide(imageMsg);
-      hide(followupMsg);
-      await wait(TIMINGS.rest);
-    }
+    show(followupMsg);
+    // No further wait — final state stays put with focus on the image area.
   };
 
-  // Initial visible state: user first message shown right away to avoid flash of nothing
-  show(userMsg);
+  // Initial state: only user message visible to avoid flash of nothing
+  userMsg.classList.remove('is-hidden');
+  requestAnimationFrame(() => userMsg.classList.add('is-shown'));
+
+  // Kick off the one-shot intro after a brief delay
   window.setTimeout(() => {
-    loop().catch(() => {
+    run().catch(() => {
       /* swallow */
     });
-  }, 2500);
+  }, 1200);
 
   window.addEventListener('beforeunload', () => {
     cancelled = true;
