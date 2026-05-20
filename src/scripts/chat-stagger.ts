@@ -1,13 +1,16 @@
 // Hero chat mockup orchestrator.
-// Sequence: show user → wait 1s → show typing → wait 2s → hide typing + show bot → wait 6s → reset.
-// Loops every ~12s. Pauses when document.hidden === true.
+// Sequence: user → typing → bot (medical) → image (community) → followup (soft CTA).
+// Auto-scrolls the conversation container to the bottom on each new message.
+// Loops every ~16s. Pauses when document.hidden === true.
 
-type Phase = 'user' | 'typing' | 'bot' | 'rest';
+type Phase = 'user' | 'typing' | 'bot' | 'image' | 'followup' | 'rest';
 
 const TIMINGS: Record<Phase, number> = {
   user: 1000,
   typing: 2000,
-  bot: 6000,
+  bot: 5000,
+  image: 1800,
+  followup: 5500,
   rest: 800,
 };
 
@@ -15,17 +18,29 @@ const init = (): void => {
   const root = document.querySelector<HTMLElement>('[data-chat]');
   if (!root) return;
 
+  const scrollEl = root.querySelector<HTMLElement>('[data-chat-scroll]');
   const userMsg = root.querySelector<HTMLElement>('[data-chat-user]');
   const typingMsg = root.querySelector<HTMLElement>('[data-chat-typing]');
   const botMsg = root.querySelector<HTMLElement>('[data-chat-bot]');
-  if (!userMsg || !typingMsg || !botMsg) return;
+  const imageMsg = root.querySelector<HTMLElement>('[data-chat-image]');
+  const followupMsg = root.querySelector<HTMLElement>('[data-chat-followup]');
+  if (!userMsg || !typingMsg || !botMsg || !imageMsg || !followupMsg) return;
 
   let timer: number | undefined;
   let cancelled = false;
 
+  const scrollToBottom = (): void => {
+    if (!scrollEl) return;
+    scrollEl.scrollTo({ top: scrollEl.scrollHeight, behavior: 'smooth' });
+  };
+
   const show = (el: HTMLElement): void => {
     el.classList.remove('is-hidden');
-    requestAnimationFrame(() => el.classList.add('is-shown'));
+    requestAnimationFrame(() => {
+      el.classList.add('is-shown');
+      // Wait a frame for layout, then scroll to bottom
+      requestAnimationFrame(scrollToBottom);
+    });
   };
   const hide = (el: HTMLElement, immediate = false): void => {
     el.classList.remove('is-shown');
@@ -39,10 +54,11 @@ const init = (): void => {
     });
 
   const reset = (): void => {
-    [userMsg, typingMsg, botMsg].forEach((el) => {
+    [userMsg, typingMsg, botMsg, imageMsg, followupMsg].forEach((el) => {
       el.classList.remove('is-shown');
       el.classList.add('is-hidden');
     });
+    if (scrollEl) scrollEl.scrollTop = 0;
   };
 
   const loop = async (): Promise<void> => {
@@ -72,8 +88,16 @@ const init = (): void => {
       show(botMsg);
       await wait(TIMINGS.bot);
 
+      show(imageMsg);
+      await wait(TIMINGS.image);
+
+      show(followupMsg);
+      await wait(TIMINGS.followup);
+
       hide(userMsg);
       hide(botMsg);
+      hide(imageMsg);
+      hide(followupMsg);
       await wait(TIMINGS.rest);
     }
   };
